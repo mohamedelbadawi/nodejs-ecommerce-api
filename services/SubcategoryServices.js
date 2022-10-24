@@ -20,7 +20,10 @@ exports.getSubcategories = asyncHandler(async (req, res) => {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 2;
     const skip = (page - 1) * limit;
-    const subcategories = await Subcategory.find({}).skip(skip).limit(limit).populate({ path: 'category', select: 'name' });
+    console.log(req.params.categoryId);
+    if (req.params.categoryId) filter = { category: req.params.categoryId };
+    const subcategories = await Subcategory.find({}).skip(skip).limit(limit).populate({ path: 'category', select: 'name-_id' });
+
     res.status(200).json({ results: subcategories.length, page: page, data: subcategories });
 })
 
@@ -62,3 +65,7 @@ exports.deleteSubcategory = asyncHandler(async (req, res, next) => {
     res.status(200).json({ msg: "subcategory deleted successfully" });
 
 })
+
+// @desc get subcategories by category id
+// @route get /api/v1/subcategories
+// @access private

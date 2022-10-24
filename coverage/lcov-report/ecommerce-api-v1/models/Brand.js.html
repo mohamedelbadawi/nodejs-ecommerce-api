@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for ecommerce-api-v1/utils/validators/subcategoryValidator.js</title>
+    <title>Code coverage report for ecommerce-api-v1/models/Brand.js</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../../prettify.css" />
-    <link rel="stylesheet" href="../../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../../favicon.png" />
+    <link rel="stylesheet" href="../../prettify.css" />
+    <link rel="stylesheet" href="../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../../sort-arrow-sprite.png);
+            background-image: url(../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,13 +19,13 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">ecommerce-api-v1/utils/validators</a> subcategoryValidator.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">ecommerce-api-v1/models</a> Brand.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>6/6</span>
+                <span class='fraction'>4/4</span>
             </div>
         
             
@@ -83,10 +83,7 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -96,40 +93,37 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { check } = require('express-validator');
-const { validatorMiddleware } = require('../../middlewares/ValidatorMiddleware');
+<span class="cline-any cline-yes">3x</span></td><td class="text"><pre class="prettyprint lang-js">const mongoose = require('mongoose');
 &nbsp;
-exports.createSubcategoryValidator = [
-    check('name').exists().withMessage('Name field is required').notEmpty().withMessage('Name field must be not empty').isLength({ min: 2 }).withMessage("Subcategory name must be longer than 3 chars")
-        .isLength({ max: 32 }).withMessage('Subcategory name must be shorter than 32 chars'),
-    check('category').exists().withMessage('category id field is required').notEmpty().withMessage('category id field must be not empty').isMongoId().withMessage("category id is invalid"),
-    validatorMiddleware];
+const brandSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: [true, "Brand name is required"],
+        unique: [true, "Brand must be unique"],
+        minLength: [3, "Brand name must be longer than 3 chars"],
+        maxLength: [32, "Brand name must be shorter than 32 chars"]
 &nbsp;
+    },
+    slug: {
+        type: String,
+        lowercase: true
+    },
+    image: String
 &nbsp;
-    
-exports.getSubcategoryValidator = [
-    check('id').exists().withMessage('subcategory id is required').isMongoId().withMessage('subcategory id is invalid'), validatorMiddleware
-]
-exports.updateSubcategoryValidator = [
-    check('id').exists().withMessage('subcategory id is required').isMongoId().withMessage('subcategory id is invalid'),
-    check('name').exists().withMessage('subcategory id is required').isMongoId().withMessage('subcategory id is invalid'),
-    check('category').exists().withMessage('category id is required').isMongoId().withMessage('category id is invalid'), validatorMiddleware
-]
-exports.deleteSubcategoryValidator = [
-    check('id').exists().withMessage('subcategory id is required').isMongoId().withMessage('subcategory id is invalid'), validatorMiddleware
-]
-&nbsp;</pre></td></tr></table></pre>
+}, { timestamps: true });
+const Brand = mongoose.model('Brand', brandSchema);
+&nbsp;
+module.exports = Brand;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
@@ -138,14 +132,14 @@ exports.deleteSubcategoryValidator = [
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
                 at 2022-10-24T17:05:50.103Z
             </div>
-        <script src="../../../prettify.js"></script>
+        <script src="../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../../sorter.js"></script>
-        <script src="../../../block-navigation.js"></script>
+        <script src="../../sorter.js"></script>
+        <script src="../../block-navigation.js"></script>
     </body>
 </html>
     
