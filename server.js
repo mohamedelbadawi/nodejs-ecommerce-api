@@ -5,24 +5,18 @@ const ApiError = require('./utils/ApiError');
 
 dotenv.config();
 const initializeApp = () => {
-
-
-
-
-
     const app = new express();
-
     if (process.env.NODE_ENV == "development") {
         app.use(morgan('dev'));
     }
     app.use(express.json());
-
     const categoryRoutes = require('./routes/categoryRoutes');
-    // db connection
+    const subcategoryRoutes = require('./routes/subcategoryRoutes');
     const dbConnection = require('./config/database');
     const globalError = require('./middlewares/ErrorMiddleware');
     // routes
     app.use('/api/v1/categories', categoryRoutes);
+    app.use('/api/v1/subcategories', subcategoryRoutes);
 
     // middleware
     app.use(globalError)
