@@ -1,4 +1,4 @@
-const router = require('express').Router();
+const router = require('express').Router({ mergeParams: true });
 
 const { createSubcategory, getSubcategories, getSubcategory, updateSubcategory, deleteSubcategory } = require('../services/SubcategoryServices');
 const { deleteCategoryValidator } = require('../utils/validators/CategoryValidator');
@@ -6,5 +6,5 @@ const { createSubcategoryValidator, getSubcategoryValidator } = require('../util
 
 
 router.route("/").post(createSubcategoryValidator, createSubcategory).get(getSubcategories)
-router.route("/:id").get(getSubcategoryValidator, getSubcategory).put(updateSubcategory, updateSubcategory).delete(deleteCategoryValidator, deleteSubcategory) 
+router.route("/:id").get(getSubcategoryValidator, getSubcategory).put(updateSubcategory, updateSubcategory).delete(deleteCategoryValidator, deleteSubcategory)
 module.exports = router; 
