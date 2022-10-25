@@ -13,6 +13,7 @@ const initializeApp = () => {
     }
     app.use(express.json());
     const categoryRoutes = require('./routes/categoryRoutes');
+    const productRoutes = require('./routes/productRoute');
     const subcategoryRoutes = require('./routes/subcategoryRoutes');
     const brandRoutes = require('./routes/brandRoutes');
     const dbConnection = require('./config/database');
@@ -21,6 +22,7 @@ const initializeApp = () => {
     app.use('/api/v1/categories', categoryRoutes);
     app.use('/api/v1/brands', brandRoutes);
     app.use('/api/v1/subcategories', subcategoryRoutes);
+    app.use('/api/v1/products', productRoutes);
     // middleware
     app.use(globalError)
 
