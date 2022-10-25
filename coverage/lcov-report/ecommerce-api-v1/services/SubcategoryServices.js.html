@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for ecommerce-api-v1/services/CategoryServices.js</title>
+    <title>Code coverage report for ecommerce-api-v1/services/SubcategoryServices.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,7 +19,7 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">ecommerce-api-v1/services</a> CategoryServices.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">ecommerce-api-v1/services</a> SubcategoryServices.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
@@ -125,17 +125,19 @@
 <a name='L60'></a><a href='#L60'>60</a>
 <a name='L61'></a><a href='#L61'>61</a>
 <a name='L62'></a><a href='#L62'>62</a>
-<a name='L63'></a><a href='#L63'>63</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -189,65 +191,66 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const asyncHandler = require('express-async-handler');
 const slugify = require("slugify");
-const Category = require('../models/Category');
+const Subcategory = require('../models/Subcategory');
 const ApiError = require('../utils/ApiError');
-// @desc create category 
-// @route POST /api/v1/categories
+&nbsp;
+// @desc create subcategory
+// @route POST /api/v1/subcategories
 // @access private
-exports.createCategory = asyncHandler(async (req, res) =&gt; {
-    const { name } = req.body;
-    const category = await Category.create({ name, slug: slugify(name) });
-    return res.status(201).json({ data: category });
+exports.createSubcategory = asyncHandler(async (req, res) =&gt; {
+    const { name, category } = req.body;
+    const subcategory = await Subcategory.create({ name, slug: slugify(name), category });
+    return res.status(201).json({ data: subcategory });
 })
 &nbsp;
-// @desc get list of categories
-// @route get /api/v1/categories
+// @desc get list of subcategories
+// @route get /api/v1/subcategories
 // @access public
 &nbsp;
-exports.getCategories = asyncHandler(async (req, res) =&gt; {
+exports.getSubcategories = asyncHandler(async (req, res) =&gt; {
     const page = parseInt(req.query.page, 10) || 1;
     const limit = parseInt(req.query.limit, 10) || 2;
     const skip = (page - 1) * limit;
-    const categories = await Category.find({}).skip(skip).limit(limit);
-    res.status(200).json({ results: categories.length, page: page, data: categories });
+    const subcategories = await Subcategory.find({}).skip(skip).limit(limit);
+    res.status(200).json({ results: subcategories.length, page: page, data: subcategories });
 })
 &nbsp;
-// @desc    get category by id
-// @route   get /api/v1/categories/:id    
+// @desc    get subcategory by id
+// @route   get /api/v1/subcategories/:id    
 // @access    public
 &nbsp;
-exports.getCategory = asyncHandler(async (req, res, next) =&gt; {
+exports.getSubcategory = asyncHandler(async (req, res, next) =&gt; {
     const { id } = req.params;
-    const category = await Category.findById(id);
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!category)
-<span class="cstat-no" title="statement not covered" >        return next(new ApiError(`No category with this id:${id}`, 404))</span>
-    res.status(200).json({ data: category });
+    const subcategory = await Subcategory.findById(id);
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!subcategory)
+<span class="cstat-no" title="statement not covered" >        return next(new ApiError(`No subcategory with this id:${id}`, 404))</span>
+    res.status(200).json({ data: subcategory });
 &nbsp;
 })
 &nbsp;
-// @desc update specific category by id
-// @route put /api/v1/categories/:id
+// @desc update specific subcategory by id
+// @route put /api/v1/subcategories/:id
 // @access private
 &nbsp;
-exports.updateCategory = asyncHandler(async (req, res, next) =&gt; {
+exports.updateSubcategory = asyncHandler(async (req, res, next) =&gt; {
     const { id } = req.params;
-    const { name } = req.body;
-    const category = await Category.findOneAndUpdate({ _id: id }, { name, slug: slugify(name) }, { new: true });
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!category)
-<span class="cstat-no" title="statement not covered" >        return next(new ApiError(`No category with this id:${id}`, 404))</span>
-    res.status(200).json({ data: category });
+    const { name, category } = req.body;
+    const subcategory = await Subcategory.findOneAndUpdate({ _id: id }, { name, slug: slugify(name), category }, { new: true });
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!subcategory)
+<span class="cstat-no" title="statement not covered" >        return next(new ApiError(`No subcategory with this id:${id}`, 404))</span>
+    res.status(200).json({ data: subcategory });
 })
 &nbsp;
-// @desc delete specific category by id
-// @route delete /api/v1/categories
+// @desc delete specific subcategory by id
+// @route delete /api/v1/subcategories
 // @access private
-exports.deleteCategory = asyncHandler(async (req, res, next) =&gt; {
+exports.deleteSubcategory = asyncHandler(async (req, res, next) =&gt; {
     const { id } = req.params;
-    const category = await Category.findByIdAndDelete({ _id: id });
-    <span class="missing-if-branch" title="if path not taken" >I</span>if (!category)
-<span class="cstat-no" title="statement not covered" >        return next(new ApiError(`No category with this id:${id}`, 404))</span>
+    const subcategory = await Subcategory.findByIdAndDelete({ _id: id });
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!subcategory)
+<span class="cstat-no" title="statement not covered" >        return next(new ApiError(`No subcategory with this id:${id}`, 404))</span>
 &nbsp;
-    res.status(200).json({ msg: "Category deleted successfully" });
+    res.status(200).json({ msg: "subcategory deleted successfully" });
 &nbsp;
 })</pre></td></tr></table></pre>
 

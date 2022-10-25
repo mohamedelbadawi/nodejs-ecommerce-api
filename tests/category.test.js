@@ -1,13 +1,13 @@
 const request = require("supertest")
-const app = require("../server");
-const db = require('../config/database')
-const category = require('../models/Category');
 const mongoose = require('mongoose');
+const app = require("../server");
+const Category = require('../models/Category');
+require('../config/database')
 
 let id;
 afterAll(async () => {
+    await Category.deleteMany({});
     mongoose.disconnect();
-    await category.deleteMany();
 })
 
 describe("post /categories", () => {
