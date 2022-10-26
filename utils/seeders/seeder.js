@@ -3,13 +3,13 @@ const dotenv = require('dotenv');
 const Product = require('../../models/Product');
 const dbConnection = require('../../config/database');
 
-dotenv.config({ path: '../../config.env' });
+dotenv.config();
 
 // connect to DB
 // dbConnection();
 
 // Read data
-const products = JSON.parse(fs.readFileSync('./product.json'));
+const products = JSON.parse(fs.readFileSync('./products.json'));
 
 
 // Insert data into DB
