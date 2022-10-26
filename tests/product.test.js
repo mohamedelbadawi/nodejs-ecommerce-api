@@ -118,7 +118,7 @@ describe('delete /product/:id', () => {
     it('delete the specific product', async () => {
         const res = await request(app).delete(`/api/v1/products/${id}`);
         expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual(expect.objectContaining({ msg: "Product deleted successfully" }));
+        expect(res.body).toEqual(expect.objectContaining({ msg: "product deleted successfully" }));
 
 
     })

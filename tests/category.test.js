@@ -72,7 +72,7 @@ describe('delete /categories/:id', () => {
     it('delete the specific category', async () => {
         const res = await request(app).delete(`/api/v1/categories/${id}`);
         expect(res.statusCode).toEqual(200);
-        expect(res.body).toEqual(expect.objectContaining({ msg: "Category deleted successfully" }));
+        expect(res.body).toEqual(expect.objectContaining({ msg: "category deleted successfully" }));
 
 
     })
