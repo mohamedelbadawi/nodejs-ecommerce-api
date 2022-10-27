@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
         required: [true, "product name is required"],
         unique: [true, "product must be unique"],
         minLength: [3, "product name must be longer than 3 chars"],
-        maxLength: [32, "product name must be shorter than 32 chars"]
+        maxLength: [200, "product name must be shorter than 32 chars"]
 
     },
     slug: {
@@ -14,7 +14,7 @@ const productSchema = new mongoose.Schema({
         required: true,
         lowercase: true
     },
-    imageCover: { type: String, required: [true, "cover image is required"] },
+    coverImage: { type: String, required: [true, "cover image is required"] },
     images: [String],
     description: {
         type: String,

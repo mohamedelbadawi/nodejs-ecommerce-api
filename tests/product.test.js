@@ -29,12 +29,11 @@ describe("post /products", () => {
             "priceAfterDiscount": 100,
             "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
             "category": categoryRes.body.data._id,
-            "imageCover": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+            "coverImage": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
             "ratingsAverage": 4.3,
             "ratingsNumber": 20
         };
         const res = await request(app).post('/api/v1/products').send(product);
-        console.log(res);
         id = res.body.data._id;
         expect(res.statusCode).toEqual(201);
         expect(res.body).toEqual(expect.objectContaining({ data: expect.any(Object) }));
@@ -107,8 +106,7 @@ describe('put /product/:id', () => {
             "ratingsAverage": 4.3,
             "ratingsNumber": 20
         };
-        console.log(id)
-        const res = await request(app).put(`/api/v1/product/${id}`).send(product);
+        const res = await request(app).put(`/api/v1/products/${id}`).send(product);
         expect(res.statusCode).toEqual(200);
         expect(res.body).toEqual(expect.objectContaining({
             data: expect.any(Object)
