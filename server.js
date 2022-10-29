@@ -1,6 +1,7 @@
 /* eslint-disable new-cap */
 /* eslint-disable global-require */
 const express = require('express');
+const path = require('path');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const ApiError = require('./utils/ApiError');
@@ -24,12 +25,12 @@ const initializeApp = () => {
     app.use('/api/v1/subcategories', subcategoryRoutes);
     app.use('/api/v1/products', productRoutes);
     // middleware
+    app.use('/', express.static(path.join(__dirname, 'uploads')))
     app.use(globalError)
 
     app.all('*', (req, res, next) => {
         next(new ApiError(`can't find this route ${req.originalUrl}`, 404));
     })
-
 
     app.on('unhandledRejection', (err) => {
         console.error(`unhandledRejection error ${err.name} | ${err.message}`);

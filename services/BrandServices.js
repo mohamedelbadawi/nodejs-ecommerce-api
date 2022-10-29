@@ -1,9 +1,23 @@
 const asyncHandler = require('express-async-handler');
-const slugify = require("slugify");
+const sharp = require('sharp');
+const { v4: uuidv4 } = require('uuid');
+const { uploadSingleImage } = require('../middlewares/UploadImage');
 const Brand = require('../models/Brand');
-const ApiError = require('../utils/ApiError');
-const ApiFeatures = require('../utils/ApiFeatures');
 const factory = require('./handlers');
+
+
+
+
+
+exports.uploadBrandImage = uploadSingleImage('image')
+
+exports.resizeBrandImage = asyncHandler(async (req, res, next) => {
+    const fileName = `${req.body.name}-${uuidv4()}-${Date.now()}.jpeg`
+    await sharp(req.file.buffer).resize(600, 600).toFormat('jpeg').jpeg({ quality: 95 }).toFile(`uploads/brands/${fileName}`)
+    req.body.image = fileName;
+    next();
+})
+
 // @desc create brand
 // @route POST /api/v1/Brands
 // @access private
