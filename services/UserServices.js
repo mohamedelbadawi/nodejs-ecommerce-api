@@ -55,7 +55,8 @@ exports.deleteUser = factory.deleteModel(User, 'user');
 
 exports.updateUserPassword = asyncHandler(async (req, res, next) => {
     const newPassword = await argon.hash(req.body.password);
-    const user = await User.findOneAndUpdate({ _id: req.params.id }, { password: newPassword }, { new: true });
+    const user = await User.findOneAndUpdate({ _id: req.params.id }, { password: newPassword, password_updated_at: Date.now() }, { new: true });
+
     if (!user) {
         return next(new ApiError('No user for this id', 404));
     }

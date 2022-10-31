@@ -18,6 +18,7 @@ const initializeApp = () => {
     const subcategoryRoutes = require('./routes/subcategoryRoutes');
     const brandRoutes = require('./routes/brandRoutes');
     const userRoutes = require('./routes/userRoutes');
+    const authRoutes = require('./routes/authRoutes');
     const dbConnection = require('./config/database');
     const globalError = require('./middlewares/ErrorMiddleware');
     // routes
@@ -25,6 +26,7 @@ const initializeApp = () => {
     app.use('/api/v1/brands', brandRoutes);
     app.use('/api/v1/subcategories', subcategoryRoutes);
     app.use('/api/v1/products', productRoutes);
+    app.use('/api/v1/auth', authRoutes);
     app.use('/api/v1/users', userRoutes);
     // middleware
     app.use('/', express.static(path.join(__dirname, 'uploads')))

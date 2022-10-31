@@ -57,7 +57,6 @@ exports.updateUserPasswordValidator = [
         }),
     check('currentPassword').custom(async (val, { req }) => {
         const user = await User.findById(req.params.id);
-        console.log(await argon.verify(user.password, val));
         if (!await argon.verify(user.password, req.body.currentPassword)) {
             throw new Error('current password not right');
         }
