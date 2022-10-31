@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const request = require("supertest")
 const mongoose = require('mongoose');
 const app = require("../server");
