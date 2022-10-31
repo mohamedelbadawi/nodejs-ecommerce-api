@@ -1,8 +1,8 @@
 const router = require('express').Router();
-const { updateBrand, getBrand, deleteBrand, getBrands, createBrand, uploadBrandImage, resizeBrandImage } = require('../services/BrandServices');
-const { createBrandValidator, getBrandValidator, updateBrandValidator, deleteBrandValidator } = require('../utils/validators/BrandValidator');
+const { updateUser, getUser, deleteUser, getUsers, createUser, uploadUserImage, resizeUserImage } = require('../services/UserServices');
+// const { createUserValidator, getUserValidator, updateUserValidator, deleteUserValidator } = require('../utils/validators/UserValidator');
 
-router.route('/').post(uploadBrandImage, resizeBrandImage, createBrandValidator, createBrand).get(getBrands);
-router.route('/:id').get(getBrandValidator, getBrand).put(updateBrandValidator, updateBrand).delete(deleteBrandValidator, deleteBrand);
+router.route('/').post(uploadUserImage, resizeUserImage, createUser).get(getUsers);
+router.route('/:id').get(getUser).put(updateUser).delete(deleteUser);
 
 module.exports = router;
