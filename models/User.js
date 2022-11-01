@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     password_updated_at: Date,
     role: {
         type: String,
-        enum: ["user", "admin"],
+        enum: ["user", "supervisor", "admin"],
         default: "user"
     },
     is_active: { type: Boolean, default: true }
