@@ -63,3 +63,15 @@ exports.updateUserPassword = asyncHandler(async (req, res, next) => {
     res.status(200).json({ data: user });
 })
 
+
+exports.getLoggedUser = asyncHandler(async (req, res, next) => {
+    console.log(req)
+    req.params.id = req.user._id;
+    next();
+})
+
+
+exports.deActiveUserData = asyncHandler(async (req, res, next) => {
+    await User.findByIdAndUpdate(req.params.id, { active: false });
+    res.status(204).json({ status: 'Success' });
+})

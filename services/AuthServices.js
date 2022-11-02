@@ -141,8 +141,7 @@ exports.updatePassword = asyncHandler(async (req, res, next) => {
     if (!user.password_reset_verified) {
         return next(new ApiError('the reset code password not verify', 404));
     }
-    const hashedPassword = await argon.hash(req.body.password)
-    user.password = hashedPassword;
+    user.password = await req.body.password;
     user.password_reset_code = undefined;
     user.password_reset_expire = undefined;
     user.password_reset_verified = undefined;

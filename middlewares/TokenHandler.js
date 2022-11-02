@@ -13,6 +13,7 @@ exports.allowedTo = (...roles) => asyncHandler(async (req, res, next) => {
 })
 
 exports.auth = asyncHandler(async (req, res, next, ...roles) => {
+    console.log('hello');
     let token;
     if (req.headers.authorization) {
         token = req.headers.authorization.split(" ")[1];
@@ -37,5 +38,6 @@ exports.auth = asyncHandler(async (req, res, next, ...roles) => {
         }
     }
     req.user = user;
+    console.log(user);
     next();
 })
