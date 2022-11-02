@@ -5,6 +5,7 @@ const { createHash } = require('node:crypto')
 const User = require('../models/User')
 const ApiError = require("../utils/ApiError")
 const sendEmail = require('../utils/sendEmail');
+const { sendSms } = require("../utils/sendSms")
 
 // @desc   signup
 // @route  GET /api/v1/signup
@@ -46,37 +47,71 @@ const createToken = (userId) => jwt.sign({ userId: userId }, process.env.JWT_SEC
 // @route  post /api/v1/forgetPassword/email
 // @access  public
 
-exports.resetPasswordViaEmail = asyncHandler(async (req, res, next) => {
-    // get the user
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) {
-        return next(new ApiError('there is no account with this email'));
-    }
+const createCode = () => {
     const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
 
     const hashedCode = createHash('sha256')
         .update(resetCode)
         .digest('hex');
-    console.log(hashedCode);
+    return { resetCode: resetCode, hashedCode: hashedCode };
+}
+
+exports.resetPasswordViaEmail = asyncHandler(async (req, res, next) => {
+    // get the user
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+        return next(new ApiError("there is no account with this email "))
+    }
+
+    const { resetCode, hashedCode } = createCode();
+
     user.password_reset_code = hashedCode;
     user.password_reset_expire = Date.now() + 10 * 60 * 1000;
     user.password_reset_verified = false;
     user.save();
-
     const message = `Hi ${user.name},
-
-    A password reset for your account was requested.
     
-    this is your reset password code "${resetCode}"
+        A password reset for your account was requested.
     
-    Note that this code is valid for 10 minutes. After the time limit has expired, you will have to resubmit the request for a password reset.
+        this is your reset password code "${resetCode}"
     
-    E-shop team
-    `;
+        Note that this code is valid for 10 minutes. After the time limit has expired, you will have to resubmit the request for a password reset.
+    
+        E-shop team
+        `;
 
     await sendEmail({ email: user.email, subject: 'E-shop password reset ', message: message })
 
     res.status(200).json({ status: "success", message: "reset code was sent to you successfully" });
+
+});
+exports.resetPasswordViaPhone = asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({ email: req.body.email });
+
+    if (!user) {
+        return next(new ApiError("there is no account with this email "))
+    }
+
+    const { resetCode, hashedCode } = createCode();
+
+    user.password_reset_code = hashedCode;
+    user.password_reset_expire = Date.now() + 10 * 60 * 1000;
+    user.password_reset_verified = false;
+    user.save();
+    const message = `Hi ${user.name},
+    
+    A password reset for your account was requested.
+
+    this is your reset password code "${resetCode}"
+
+    Note that this code is valid for 10 minutes. After the time limit has expired, you will have to resubmit the request for a password reset.
+
+    E-shop team
+    `;
+    await sendSms(user.phone, message);
+    res.status(200).json({ status: "success", message: "reset code was sent to you successfully" });
+
 })
 
 exports.verifyResetCode = asyncHandler(async (req, res, next) => {
