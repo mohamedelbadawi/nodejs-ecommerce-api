@@ -8,7 +8,10 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: [true, "user email is required"], unique: true },
     phone: String,
     profileImg: String,
+    password_reset_code: String,
     password_updated_at: Date,
+    password_reset_expire: Date,
+    password_reset_verified: Boolean,
     role: {
         type: String,
         enum: ["user", "supervisor", "admin"],
