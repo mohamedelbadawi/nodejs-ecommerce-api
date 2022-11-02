@@ -3,7 +3,17 @@ const jwt = require('jsonwebtoken')
 const ApiError = require('../utils/ApiError');
 const User = require('../models/User');
 
-exports.auth = asyncHandler(async (req, res, next) => {
+
+exports.allowedTo = (...roles) => asyncHandler(async (req, res, next) => {
+
+    if (!roles.includes(req.user.role)) {
+        return next(new ApiError("you are not allowed to access this route"));
+    }
+    next();
+})
+
+exports.auth = asyncHandler(async (req, res, next, ...roles) => {
+    console.log('hello');
     let token;
     if (req.headers.authorization) {
         token = req.headers.authorization.split(" ")[1];
@@ -18,7 +28,7 @@ exports.auth = asyncHandler(async (req, res, next) => {
     if (!user) {
         return next(new ApiError("this user does not exist", 401));
     }
- 
+
     // check if password changed or no
     if (user.password_updated_at) {
         // change to seconds timestamps
@@ -27,5 +37,7 @@ exports.auth = asyncHandler(async (req, res, next) => {
             return next(new ApiError("your token is expired please renew it"));
         }
     }
+    req.user = user;
+    console.log(user);
     next();
 })
