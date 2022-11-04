@@ -37,8 +37,9 @@ It's a full ecommerce API
 - [x]  delete and update review 
 
 ### wishlist 
-- [ ]  add product to wishlist
-- [ ]  delete product for wishlist
+- [x]  get wishlist for current user
+- [x]  add product to wishlist
+- [x]  delete product for wishlist
 
 ### coupons
 - [ ]  add coupon 
