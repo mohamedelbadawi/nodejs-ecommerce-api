@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema({
         enum: ["user", "supervisor", "admin"],
         default: "user"
     },
+    wishlist: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'Product'
+    }],
     is_active: { type: Boolean, default: true }
 }, { timestamps: true })
 
