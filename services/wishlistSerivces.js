@@ -36,5 +36,5 @@ exports.removeProductFromWishlist = asyncHandler(async (req, res) => {
 exports.getLoggedUserWishlist = asyncHandler(async (req, res) => {
     const user = await User.findById(req.user._id).populate('wishlist');
 
-    res.status(200).json({ status: "success", message: "Product removed successfully from wishlist ", data: user.wishlist });
+    res.status(200).json({ status: "success", data: user.wishlist });
 })
