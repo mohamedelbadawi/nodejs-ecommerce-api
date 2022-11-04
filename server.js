@@ -21,6 +21,7 @@ const initializeApp = () => {
     const authRoutes = require('./routes/authRoutes');
     const reviewRoutes = require('./routes/reviewRoutes');
     const wishlistRoutes = require('./routes/wishlistRoutes');
+    const addressesRoutes = require('./routes/addressesRoutes');
     const dbConnection = require('./config/database');
     const globalError = require('./middlewares/ErrorMiddleware');
     // routes
@@ -32,6 +33,7 @@ const initializeApp = () => {
     app.use('/api/v1/users', userRoutes);
     app.use('/api/v1/reviews', reviewRoutes);
     app.use('/api/v1/wishlist', wishlistRoutes);
+    app.use('/api/v1/addresses', addressesRoutes);
     // middleware
     app.use('/', express.static(path.join(__dirname, 'uploads')))
     app.use(globalError)
