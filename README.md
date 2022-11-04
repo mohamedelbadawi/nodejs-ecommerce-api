@@ -42,8 +42,7 @@ It's a full ecommerce API
 - [x]  delete product for wishlist
 
 ### coupons
-- [ ]  add coupon 
-- [ ]  use coupon
+- [x]  CRUD Operations
 
 ### shopping cart 
 - [ ]  add product to cart
