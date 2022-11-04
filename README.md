@@ -1,7 +1,7 @@
 # E-shop.
 It's a full ecommerce API
 ### Tools and technologies
-- Nodejs, Mongodb
+- Nodejs, Express js, Mongodb.
 ## functions
 ### Auth
     
@@ -30,13 +30,15 @@ It's a full ecommerce API
 - [x]  CRUD operations 
 - [x]  five optional images for product with one required 
 
+
+### Reviews 
+- [x]  add only one review for the user per product
+- [x]  add optional comment for user
+- [x]  delete and update review 
+
 ### wishlist 
 - [ ]  add product to wishlist
 - [ ]  delete product for wishlist
-
-### Reviews 
-- [ ]  add only one review for the user per product
-- [ ]  add optional comment for user
 
 ### coupons
 - [ ]  add coupon 
