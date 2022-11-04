@@ -41,6 +41,11 @@ It's a full ecommerce API
 - [x]  add product to wishlist
 - [x]  delete product for wishlist
 
+### addresses
+- [x]  add address 
+- [x]  remove address
+- [x]  get user addresses
+
 ### coupons
 - [ ]  add coupon 
 - [ ]  use coupon
