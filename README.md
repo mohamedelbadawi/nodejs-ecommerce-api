@@ -47,8 +47,7 @@ It's a full ecommerce API
 - [x]  get user addresses
 
 ### coupons
-- [ ]  add coupon 
-- [ ]  use coupon
+- [x]  CRUD Operations
 
 ### shopping cart 
 - [ ]  add product to cart
