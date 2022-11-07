@@ -63,7 +63,10 @@ exports.removeItemFromCart = asyncHandler(async (req, res) => {
 
 
 exports.getUserCart = asyncHandler(async (req, res) => {
-    const cart = await Cart.findOne({ user: req.user._id }).populate('cartItems.product');
+    const cart = await Cart.findOne({ user: req.user._id }).populate({
+        path: 'cartItems.product',
+        select: 'title coverImage description'
+    });
     if (!cart) {
         return res.status(200).json({ status: 'success', msg: "Your cart is empty" });
     }
@@ -138,3 +141,4 @@ exports.cancelDiscount = asyncHandler(async (req, res, next) => {
     return res.status(200).json({ status: "success", numOfCartItems: cart.cartItems.length, data: cart });
 
 })
+

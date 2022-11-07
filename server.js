@@ -24,6 +24,7 @@ const initializeApp = () => {
     const addressesRoutes = require('./routes/addressesRoutes');
     const couponRoutes = require('./routes/couponRoutes');
     const cartRoutes = require('./routes/cartRoutes')
+    const orderRoutes = require('./routes/orderRoutes')
     const dbConnection = require('./config/database');
     const globalError = require('./middlewares/ErrorMiddleware');
     // routes
@@ -38,6 +39,7 @@ const initializeApp = () => {
     app.use('/api/v1/addresses', addressesRoutes);
     app.use('/api/v1/coupons', couponRoutes);
     app.use('/api/v1/cart', cartRoutes);
+    app.use('/api/v1/orders', orderRoutes);
 
 
     // middleware
