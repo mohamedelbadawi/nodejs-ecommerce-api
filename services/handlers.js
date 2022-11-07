@@ -5,7 +5,11 @@ const ApiFeatures = require('../utils/ApiFeatures');
 
 exports.getAllModels = (model) => asyncHandler(async (req, res) => {
     const totalDocuments = model.countDocuments();
-    const apiFeatures = new ApiFeatures(model.find(), req.query).search().filter().sort().paginate().paginate(totalDocuments);
+    let filter = {};
+    if (req.filterObject) {
+        filter = req.filterObject;
+    }
+    const apiFeatures = new ApiFeatures(model.find(filter), req.query).search().filter().sort().paginate().paginate(totalDocuments);
     const { mongooseQuery, paginationResult } = apiFeatures;
     const documents = await mongooseQuery;
 
