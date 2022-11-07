@@ -3,7 +3,9 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const cors = require('cors')
 const dotenv = require('dotenv');
+const compression = require('compression')
 const ApiError = require('./utils/ApiError');
 
 dotenv.config();
@@ -23,6 +25,8 @@ const initializeApp = () => {
     const wishlistRoutes = require('./routes/wishlistRoutes');
     const addressesRoutes = require('./routes/addressesRoutes');
     const couponRoutes = require('./routes/couponRoutes');
+    const cartRoutes = require('./routes/cartRoutes')
+    const orderRoutes = require('./routes/orderRoutes')
     const dbConnection = require('./config/database');
     const globalError = require('./middlewares/ErrorMiddleware');
     // routes
@@ -36,6 +40,13 @@ const initializeApp = () => {
     app.use('/api/v1/wishlist', wishlistRoutes);
     app.use('/api/v1/addresses', addressesRoutes);
     app.use('/api/v1/coupons', couponRoutes);
+    app.use('/api/v1/cart', cartRoutes);
+    app.use('/api/v1/orders', orderRoutes);
+
+    app.use(cors());
+    app.options('*', cors());
+
+    app.use(compression())
     // middleware
     app.use('/', express.static(path.join(__dirname, 'uploads')))
     app.use(globalError)

@@ -10,6 +10,10 @@ const couponSchema = mongoose.Schema({
         type: Date,
         required: [true, "expire date is required"]
     },
+    type: {
+        type: String,
+        enum: ['fixed', 'percentage']
+    },
     discount: {
         type: Number,
         required: [true, "coupon discount percentage is required"]

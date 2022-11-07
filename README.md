@@ -48,8 +48,16 @@ It's a full ecommerce API
 
 ### coupons
 - [x]  CRUD Operations
+- [x]  Apply coupons (fixed,percentage)  
 
 ### shopping cart 
-- [ ]  add product to cart
-- [ ]  delete product from cart
+- [x]  add product to cart
+- [x]  delete product from cart
+- [x]  update quantity 
+- [x]  clear cart   
+
+### payment 
+[x] cash
+[x] credit card (stripe)
+
 
