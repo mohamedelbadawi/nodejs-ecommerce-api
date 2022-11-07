@@ -57,7 +57,7 @@ It's a full ecommerce API
 - [x]  clear cart   
 
 ### payment 
-[x] cash
-[x] credit card (stripe)
+- [x] cash
+- [x] credit card (stripe)
 
 
