@@ -3,7 +3,9 @@
 const express = require('express');
 const path = require('path');
 const morgan = require('morgan');
+const cors = require('cors')
 const dotenv = require('dotenv');
+const compression = require('compression')
 const ApiError = require('./utils/ApiError');
 
 dotenv.config();
@@ -41,7 +43,10 @@ const initializeApp = () => {
     app.use('/api/v1/cart', cartRoutes);
     app.use('/api/v1/orders', orderRoutes);
 
+    app.use(cors());
+    app.options('*', cors());
 
+    app.use(compression())
     // middleware
     app.use('/', express.static(path.join(__dirname, 'uploads')))
     app.use(globalError)

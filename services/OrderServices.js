@@ -1,4 +1,5 @@
 const asyncHandler = require('express-async-handler');
+const stripe = require('stripe')('sk_test_51M1WU8DN8fYkCYE2FxM5TT4LLpENwY5fEQs85Gge9MO7z9fHCMQ8UheUZqnrNeiDvGiUvKhYwYJi6hBUrCJjH1Yq001jNuhbOX');
 const Cart = require('../models/Cart');
 const Order = require('../models/Order');
 const factory = require('./handlers');
@@ -74,4 +75,39 @@ exports.updateDelivery = asyncHandler(async (req, res, next) => {
     order.deliveredAt = Date.now();
     order.save();
     return res.status(200).json({ status: "success", data: order });
+})
+exports.checkoutSession = asyncHandler(async (req, res, next) => {
+    const taxPrice = 0;
+    const shippingPrice = 0;
+    // get user cart
+    const cart = await Cart.findOne({ user: req.user._id });
+    if (!cart) {
+        return next(new ApiError("you don't have products in your cart"))
+    }
+    const cartPrice = cart.totalPriceAfterDiscount ? cart.totalPriceAfterDiscount : cart.totalCartPrice;
+    const totalPrice = cartPrice + taxPrice + shippingPrice;
+
+
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: [{
+            price_data: {
+                currency: "egp",
+                product_data: {
+                    name: req.user.name,
+                },
+                unit_amount: totalPrice * 100,
+            },
+            quantity: 1
+        },
+        ],
+        mode: 'payment',
+        success_url: `${req.protocol}://${req.get('host')}/orders`,
+        cancel_url: `${req.protocol}://${req.get('host')}/cart`,
+        customer_email: req.user.email,
+        client_reference: cart._id,
+        metadata: req.body.shippingAddress
+    });
+    console.log(session);
+    return res.status(200).json({ status: 'success', data: session });
 })

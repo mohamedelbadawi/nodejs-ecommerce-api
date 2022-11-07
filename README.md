@@ -53,6 +53,6 @@ It's a full ecommerce API
 
 ### payment 
 [x] cash
-[ ] credit card
+[x] credit card (stripe)
 
 
