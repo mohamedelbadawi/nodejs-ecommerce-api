@@ -60,4 +60,9 @@ It's a full ecommerce API
 - [x] cash
 - [x] credit card (stripe)
 
+## Postman Collection
+- deployed on heroku
 
+```
+https://documenter.getpostman.com/view/23767646/2s8YYPGzkQ
+```
