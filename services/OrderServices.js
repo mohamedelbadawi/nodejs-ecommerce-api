@@ -115,7 +115,7 @@ exports.checkoutSession = asyncHandler(async (req, res, next) => {
 
 const createOrder = async (session) => {
     const cart = Cart.findById(session.client_reference_id);
-    const user = User.findOne({ email: session.email })
+    const user = User.findOne({ email: session.customer_email })
     const shippingAddress = session.customer_details.address;
     const totalPrice = session.amount_total / 100;
 
@@ -155,7 +155,7 @@ exports.cardWebHook = asyncHandler(async (req, res) => {
 
     }
     if (event.type === 'checkout.session.completed') {
-        const session = event.data.object;
+        const session = event.data;
         createOrder(session)
     }
     res.status(200).json({ received: true });

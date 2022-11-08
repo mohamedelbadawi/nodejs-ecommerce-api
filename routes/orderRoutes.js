@@ -11,6 +11,6 @@ router.route('/').get(auth, filterOrderForLoggedUser, getAllOrders);
 router.route('/:id').get(auth, filterOrderForLoggedUser, checkOrderUser, getOrder);
 router.put('/:id/payment', auth, allowedTo('supervisor', 'admin'), updatePaymentValidator, updatePaymentStatus)
 router.put('/:id/delivery', auth, allowedTo('supervisor', 'admin'), updateDeliveryValidator, updateDelivery)
-router.post('/webhook', express.raw({ type: 'application/json' }), cardWebHook);
+router.post('/webhook', cardWebHook);
 
 module.exports = router;

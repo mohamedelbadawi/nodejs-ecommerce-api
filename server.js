@@ -5,6 +5,7 @@ const path = require('path');
 const morgan = require('morgan');
 const cors = require('cors')
 const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
 const compression = require('compression')
 const ApiError = require('./utils/ApiError');
 
@@ -43,7 +44,8 @@ const initializeApp = () => {
     app.use('/api/v1/cart', cartRoutes);
     app.use('/api/v1/orders', orderRoutes);
 
-
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
     app.use(cors());
     app.options('*', cors());
 
