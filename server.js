@@ -22,6 +22,21 @@ const initializeApp = () => {
     const userRoutes = require('./routes/userRoutes');
     const authRoutes = require('./routes/authRoutes');
     const reviewRoutes = require('./routes/reviewRoutes');
+    const wishlistRoutes = require('./routes/wishlistRoutes');
+    const addressesRoutes = require('./routes/addressesRoutes');
+    const couponRoutes = require('./routes/couponRoutes');
+    const cartRoutes = require('./routes/cartRoutes')
+    const orderRoutes = require('./routes/orderRoutes')
+    const dbConnection = require('./config/database');
+    const globalError = require('./middlewares/ErrorMiddleware');
+    // routes
+    app.use('/api/v1/categories', categoryRoutes);
+    app.use('/api/v1/brands', brandRoutes);
+    app.use('/api/v1/subcategories', subcategoryRoutes);
+    app.use('/api/v1/products', productRoutes);
+    app.use('/api/v1/auth', authRoutes);
+    app.use('/api/v1/users', userRoutes);
+    app.use('/api/v1/reviews', reviewRoutes);
     app.use('/api/v1/wishlist', wishlistRoutes);
     app.use('/api/v1/addresses', addressesRoutes);
     app.use('/api/v1/coupons', couponRoutes);
