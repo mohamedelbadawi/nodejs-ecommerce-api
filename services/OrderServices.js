@@ -1,5 +1,5 @@
 const asyncHandler = require('express-async-handler');
-const stripe = require('stripe')('sk_test_51M1WU8DN8fYkCYE2FxM5TT4LLpENwY5fEQs85Gge9MO7z9fHCMQ8UheUZqnrNeiDvGiUvKhYwYJi6hBUrCJjH1Yq001jNuhbOX');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 const Cart = require('../models/Cart');
 const Order = require('../models/Order');
 const factory = require('./handlers');
@@ -110,4 +110,52 @@ exports.checkoutSession = asyncHandler(async (req, res, next) => {
     });
     console.log(session);
     return res.status(200).json({ status: 'success', data: session });
+})
+
+const createOrder = async (session) => {
+    const cart = Cart.findById(session.client_reference_id);
+    const user = User.findOne({ email: session.customer_email })
+    const shippingAddress = session.metadata;
+    const totalPrice = session.total_amount;
+
+    const order = await Order.create({
+        user: user._id,
+        cartItems: cart.cartItems,
+        shippingAddress: shippingAddress,
+        totalOrderPrice: totalPrice,
+        paymentStatus: 'paid',
+        paymentStatusUpdatedAt: Date.now(),
+        paymentMethodType: 'card'
+    });
+
+    if (order) {
+        const options = cart.cartItems.map((item) => ({
+            updateOne: {
+                filter: { _id: item.product },
+                update: { $inc: { quantity: -item.quantity, sold: +item.quantity } }
+            },
+        }))
+        await Product.bulkWrite(options, {});
+        await cart.delete();
+    }
+
+
+}
+
+exports.cardWebHook = asyncHandler(async (req, res) => {
+    const sig = req.headers['stripe-signature'];
+
+    let event;
+
+    try {
+        event = stripe.webhooks.constructEvent(req.body, sig, process.env.ENDPOINT_SECRET);
+    } catch (err) {
+        return res.status(400).send(`Webhook Error: ${err.message}`);
+
+    }
+    if (event.type === 'checkout.session.completed') {
+        const session = event.data.object;
+        createOrder(session)
+    }
+    res.status(200).json({ received: true });
 })

@@ -43,6 +43,7 @@ const initializeApp = () => {
     app.use('/api/v1/cart', cartRoutes);
     app.use('/api/v1/orders', orderRoutes);
 
+
     app.use(cors());
     app.options('*', cors());
 
