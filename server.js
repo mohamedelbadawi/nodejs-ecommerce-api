@@ -15,7 +15,9 @@ const initializeApp = () => {
     if (process.env.NODE_ENV === "development") {
         app.use(morgan('dev'));
     }
-    app.use(express.json());
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+    // app.use(express.json());
     const categoryRoutes = require('./routes/categoryRoutes');
     const productRoutes = require('./routes/productRoute');
     const subcategoryRoutes = require('./routes/subcategoryRoutes');
@@ -31,6 +33,7 @@ const initializeApp = () => {
     const dbConnection = require('./config/database');
     const globalError = require('./middlewares/ErrorMiddleware');
     // routes
+
     app.use('/api/v1/categories', categoryRoutes);
     app.use('/api/v1/brands', brandRoutes);
     app.use('/api/v1/subcategories', subcategoryRoutes);
@@ -44,8 +47,7 @@ const initializeApp = () => {
     app.use('/api/v1/cart', cartRoutes);
     app.use('/api/v1/orders', orderRoutes);
 
-    app.use(bodyParser.urlencoded({ extended: false }))
-    app.use(bodyParser.json())
+
     app.use(cors());
     app.options('*', cors());
 
