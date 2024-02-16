@@ -1,5 +1,5 @@
-# E-shop.
-It's a full ecommerce API
+# Viva Cart.
+It's a full E-commerce API 
 ### Tools and technologies
 - Nodejs, Express js, Mongodb.
 ## functions
